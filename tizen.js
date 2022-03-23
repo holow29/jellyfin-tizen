@@ -45,6 +45,10 @@
         'subtitleburnsettings'
     ];
 
+    var plugins = {
+         'AvplayVideoPlayer': 'avplayVideoPlayer'
+    };
+
     var systeminfo;
 
     function getSystemInfo() {
@@ -160,7 +164,7 @@
 
         getPlugins: function () {
             postMessage('getPlugins');
-            return [];
+            return Object.keys(plugins);
         },
 
         openUrl: function (url, target) {
