@@ -417,9 +417,13 @@ function _AvplayVideoPlayer(modules) {
                     self._videoElement.classList.remove('avplayVideoPlayerOnTop');
                 }
 
+                console.debug('play 1', webapis.avplay.getState());
                 webapis.avplay.play();
+                console.debug('play 2', webapis.avplay.getState());
 
                 self.loading.hide();
+
+                self.Events.trigger(self, 'playing');
             });
     }
 
@@ -427,7 +431,11 @@ function _AvplayVideoPlayer(modules) {
         var elem = document.querySelector('.avplayVideoPlayer');
 
         if (elem) {
+            console.debug('stop 1', webapis.avplay.getState());
             webapis.avplay.stop();
+            console.debug('stop 2', webapis.avplay.getState());
+            webapis.avplay.close();
+            console.debug('stop 3', webapis.avplay.getState());
 
             this.onEnded();
 
@@ -448,7 +456,9 @@ function _AvplayVideoPlayer(modules) {
         var elem = document.querySelector('.avplayVideoPlayer');
 
         if (elem) {
+            console.debug('destroy 1', webapis.avplay.getState());
             webapis.avplay.close();
+            console.debug('destroy 2', webapis.avplay.getState());
             elem.parentNode.removeChild(elem);
         }
 
@@ -530,7 +540,7 @@ function _AvplayVideoPlayer(modules) {
 
         return new Promise(function (resolve, reject) {
             var listener = {
-                /*onbufferingstart: function () {
+                onbufferingstart: function () {
                     console.debug("Buffering start.");
                 },
  
@@ -540,9 +550,10 @@ function _AvplayVideoPlayer(modules) {
 
                 onbufferingcomplete: function () {
                     console.debug("Buffering complete.");
-                },*/
+                },
  
                 onstreamcompleted: function () {
+                    console.debug('onstreamcompleted');
                     self.onEnded();
                 },
 
@@ -570,7 +581,14 @@ function _AvplayVideoPlayer(modules) {
 
             self._currentPlayOptions = options;
 
+            console.debug('setCurrentSrc 1', webapis.avplay.getState());
+            webapis.avplay.close();
+            console.debug('setCurrentSrc 2', webapis.avplay.getState());
             webapis.avplay.open(options.url);
+            console.debug('setCurrentSrc 3', webapis.avplay.getState());
+
+            // HACK: Wait more - doesn't help
+            webapis.avplay.setTimeoutForBuffering(60);
 
             webapis.avplay.setListener(listener);
 
