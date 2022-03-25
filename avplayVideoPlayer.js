@@ -616,6 +616,23 @@ function _AvplayVideoPlayer(modules) {
         //webapis.avplay.setSubtitlePosition(offsetValue);
     }
 
+    this.resetSubtitleOffset = function () {
+        this._currentTrackOffset = 0;
+        this._showTrackOffset = false;
+    }
+
+    this.enableShowingSubtitleOffset = function () {
+        this._showTrackOffset = true;
+    }
+
+    this.disableShowingSubtitleOffset = function () {
+        this._showTrackOffset = false;
+    }
+
+    this.isShowingSubtitleOffsetEnabled = function () {
+        return this._showTrackOffset;
+    }
+
     this.onEnded = function () {
         var stopInfo = {
             src: this.currentSrc()
