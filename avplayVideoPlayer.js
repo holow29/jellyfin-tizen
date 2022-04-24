@@ -417,6 +417,13 @@ function _AvplayVideoPlayer(modules) {
                     self._videoElement.classList.remove('avplayVideoPlayerOnTop');
                 }
 
+                if (options.playerStartPositionTicks) {
+                    return self.currentTime(options.playerStartPositionTicks / 10000);
+                }
+
+                return Promise.resolve();
+            })
+            .then(function () {
                 console.debug('play 1', webapis.avplay.getState());
                 webapis.avplay.play();
                 console.debug('play 2', webapis.avplay.getState());
@@ -484,15 +491,20 @@ function _AvplayVideoPlayer(modules) {
 
     this.currentTime = function (val) {
         if (val != null) {
-            var successCallback = function () {
-                console.debug('Media seek successful');
-            };
+            return new Promise(function (resolve, reject) {
+                var successCallback = function () {
+                    console.debug('Media seek successful');
+                    resolve();
+                };
 
-            var errorCallback = function () {
-                console.debug('Media seek failed');
-            };
+                var errorCallback = function () {
+                    console.debug('Media seek failed');
+                    reject();
+                };
 
-            return webapis.avplay.seekTo(val, successCallback, errorCallback);
+                console.debug('seekTo', webapis.avplay.getState());
+                webapis.avplay.seekTo(val, successCallback, errorCallback);
+            });
         }
 
         return webapis.avplay.getCurrentTime();
