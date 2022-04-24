@@ -592,8 +592,7 @@ function _AvplayVideoPlayer(modules) {
 
             webapis.avplay.setListener(listener);
 
-            // FIXME: need size
-            webapis.avplay.setDisplayRect(0, 0, 1920, 1080);
+            webapis.avplay.setDisplayRect(elem.offsetLeft, elem.offsetTop, elem.offsetWidth, elem.offsetHeight);
 
             webapis.avplay.prepareAsync(resolve, reject);
         });
