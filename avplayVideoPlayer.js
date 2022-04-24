@@ -432,12 +432,15 @@ function _AvplayVideoPlayer(modules) {
 
         if (elem) {
             console.debug('stop 1', webapis.avplay.getState());
-            webapis.avplay.stop();
+            webapis.avplay.pause();
             console.debug('stop 2', webapis.avplay.getState());
-            webapis.avplay.close();
-            console.debug('stop 3', webapis.avplay.getState());
 
             this.onEnded();
+
+            webapis.avplay.stop();
+            console.debug('stop 3', webapis.avplay.getState());
+            webapis.avplay.close();
+            console.debug('stop 4', webapis.avplay.getState());
 
             if (destroyPlayer) {
                 this.destroy();
