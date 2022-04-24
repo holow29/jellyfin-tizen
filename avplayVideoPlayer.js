@@ -27,6 +27,7 @@ function _AvplayVideoPlayer(modules) {
     //this.lastPlayerData = {}; // FIXME: need?
 
     this._currentPlayOptions = {};
+    this._currentTrackOffset = 0;
 
     this.canPlayMediaType = function (mediaType) {
         return (mediaType || '').toLowerCase() === 'video';
@@ -428,6 +429,19 @@ function _AvplayVideoPlayer(modules) {
                 webapis.avplay.play();
                 console.debug('play 2', webapis.avplay.getState());
 
+                var audioIndex = options.playMethod === 'Transcode' ? null : options.mediaSource.DefaultAudioStreamIndex;
+                if (audioIndex) {
+                    self.setAudioStreamIndex(audioIndex);
+                }
+
+                var subtitleIndex = options.mediaSource.DefaultSubtitleStreamIndex;
+                if (subtitleIndex != null && subtitleIndex >= 0) {
+                    var initialSubtitleStream = options.mediaSource.MediaStreams[subtitleIndex];
+                    if (initialSubtitleStream && initialSubtitleStream.DeliveryMethod !== 'Encode') {
+                        self.setSubtitleStreamIndex(subtitleIndex);
+                    }
+                }
+
                 self.loading.hide();
 
                 self.Events.trigger(self, 'playing');
@@ -624,21 +638,45 @@ function _AvplayVideoPlayer(modules) {
     }
 
     this.setSubtitleStreamIndex = function (streamIndex) {
+        var self = this;
+
         console.debug('setting new text track index to: ' + streamIndex);
 
         var track = null;
 
         if (streamIndex !== -1) {
-            var mediaStreamTextTracks = getMediaStreamTextTracks(this._currentPlayOptions.mediaSource);
+            var textTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
 
-            track = mediaStreamTextTracks.filter(function (t) {
-                return t.Index === streamIndex;
-            })[0];
-
-            console.debug(mediaStreamTextTracks);
+            console.debug('TextTracks:', textTracks);
             console.debug(webapis.avplay.getTotalTrackInfo());
 
-            webapis.avplay.setSelectTrack('TEXT', streamIndex);
+            track = textTracks.filter(function (t) {
+                return t.Index === streamIndex;
+            })[0];
+        }
+
+        if (track) {
+            if (track.DeliveryMethod === 'External') {
+                var downloadRequest = new tizen.DownloadRequest(window.ApiClient.getUrl(track.DeliveryUrl), 'wgt-private-tmp');
+
+                tizen.download.start(downloadRequest, {
+                    oncompleted: function (downloadId, fullPath) {
+                        console.log('absolute path of downloaded file: ' + fullPath);
+
+                        webapis.avplay.setExternalSubtitlePath(fullPath);
+                        console.debug(webapis.avplay.getTotalTrackInfo());
+
+                        webapis.avplay.setSubtitlePosition(self._currentTrackOffset);
+                    },
+                    onfailed: function (error) {
+                        console.log('Failed to download Subtitle', error);
+                    }
+                });
+            } else if (track.DeliveryMethod === 'Embed') {
+                webapis.avplay.setSelectTrack('TEXT', streamIndex);
+            }
+        } else {
+            webapis.avplay.setSilentSubtitle(true);
         }
     }
 
