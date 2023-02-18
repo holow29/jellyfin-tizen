@@ -188,4 +188,33 @@
         tizen.tvinputdevice.registerKey('MediaRewind');
         tizen.tvinputdevice.registerKey('MediaFastForward');
     });
+
+    function addChangeStateEvent(name) {
+        var orig = history[name];
+
+        return function (state) {
+            var ret = orig.apply(this, arguments);
+
+            var e = new Event('tizen-changestate');
+            e.state = state;
+            window.dispatchEvent(e);
+
+            return ret;
+        };
+    }
+
+    history.pushState = addChangeStateEvent('pushState');
+    history.replaceState = addChangeStateEvent('replaceState');
+
+    function updateKeys() {
+        if (location.hash.indexOf('/queue') !== -1 || location.hash.indexOf('/video') !== -1) {
+            // Disable on-screen playback control, if available on the page
+            tizen.tvinputdevice.registerKey('MediaPlayPause');
+        } else {
+            tizen.tvinputdevice.unregisterKey('MediaPlayPause');
+        }
+    }
+
+    window.addEventListener('tizen-changestate', updateKeys);
+    window.addEventListener('popstate', updateKeys);
 })();
