@@ -1,8 +1,8 @@
-/*function getMediaStreamAudioTracks(mediaSource) {
+function getMediaStreamAudioTracks(mediaSource) {
     return mediaSource.MediaStreams.filter(function (s) {
         return s.Type === 'Audio';
     });
-}*/
+}
 
 function getMediaStreamTextTracks(mediaSource) {
     return mediaSource.MediaStreams.filter(function (s) {
@@ -632,9 +632,44 @@ function _AvplayVideoPlayer(modules) {
     }
 
     this.setAudioStreamIndex = function (streamIndex) {
+        var self = this;
+
         console.debug('setting new audio track index to: ' + streamIndex);
 
-        webapis.avplay.setSelectTrack('AUDIO', streamIndex);
+        var audioIndex = -1;
+
+        if (streamIndex !== -1) {
+            var audioTracks = getMediaStreamAudioTracks(self._currentPlayOptions.mediaSource);
+
+            console.debug('AudioTracks:', audioTracks);
+
+            for (var i = 0; i < audioTracks.length; i++) {
+                var track = audioTracks[i];
+
+                if (track.Index === streamIndex) {
+                    audioIndex = i;
+                    break;
+                }
+            }
+        }
+
+        if (audioIndex === -1) {
+            return;
+        }
+
+        var audioTracks = webapis.avplay.getTotalTrackInfo().filter(function (t) {
+            return t.type === 'AUDIO';
+        });
+
+        console.debug('AudioTracks:', audioTracks);
+
+        if (audioIndex < audioTracks.length) {
+            var track = audioTracks[audioIndex];
+
+            webapis.avplay.setSelectTrack('AUDIO', track.index);
+        } else {
+            console.error('[setAudioStreamIndex] Out of bound');
+        }
     }
 
     this.setSubtitleStreamIndex = function (streamIndex) {
