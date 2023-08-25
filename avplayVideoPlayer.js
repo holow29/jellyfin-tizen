@@ -105,19 +105,19 @@ function _AvplayVideoPlayer(modules) {
                 },
                 {
                     Container: 'mp4,m4v',
-                    AudioCodec: 'aac,mp3,ac3,eac3,mp2,pcm_s16le,pcm_s24le,aac_latm,opus,flac,vorbis',
+                    AudioCodec: 'flac,aac,mp3,ac3,eac3,mp2,pcm_s16le,pcm_s24le,aac_latm,opus,vorbis',
                     VideoCodec: 'h264,hevc,mpeg2video,vc1,msmpeg4v2,vp8,vp9',
                     Type: 'Video'
                 },
                 {
                     Container: 'mkv',
-                    AudioCodec: 'aac,mp3,ac3,eac3,mp2,pcm_s16le,pcm_s24le,aac_latm,opus,flac,vorbis',
+                    AudioCodec: 'flac,aac,mp3,ac3,eac3,mp2,pcm_s16le,pcm_s24le,aac_latm,opus,vorbis',
                     VideoCodec: 'h264,hevc,mpeg2video,vc1,msmpeg4v2,vp8,vp9',
                     Type: 'Video'
                 },
                 {
                     Container: 'm2ts',
-                    AudioCodec: 'aac,mp3,ac3,eac3,mp2,pcm_s16le,pcm_s24le,aac_latm,opus,flac,vorbis',
+                    AudioCodec: 'flac,aac,mp3,ac3,eac3,mp2,pcm_s16le,pcm_s24le,aac_latm,opus,vorbis',
                     VideoCodec: 'h264,vc1,mpeg2video',
                     Type: 'Video'
                 },
@@ -127,7 +127,7 @@ function _AvplayVideoPlayer(modules) {
                 },
                 {
                     Container: 'ts,mpegts',
-                    AudioCodec: 'aac,mp3,ac3,eac3,mp2,pcm_s16le,pcm_s24le,aac_latm,opus,flac,vorbis',
+                    AudioCodec: 'flac,aac,mp3,ac3,eac3,mp2,pcm_s16le,pcm_s24le,aac_latm,opus,vorbis',
                     VideoCodec: 'h264,hevc,vc1,mpeg2video',
                     Type: 'Video'
                 },
@@ -362,22 +362,22 @@ function _AvplayVideoPlayer(modules) {
                 MinSegments: 1,
                 SegmentLength: 0,
                 BreakOnNonKeyFrames: false
-            }, {
-                Container: "ts",
-                Type: 'Video',
-                VideoCodec: "h264,hevc",
-                AudioCodec: "aac,mp3,ac3,eac3,opus",
-                Protocol: "hls",
-                EstimateContentLength: false,
-                EnableMpegtsM2TsMode: false,
-                TranscodeSeekInfo: 'Auto',
-                CopyTimestamps: false,
-                Context: 'Streaming',
-                EnableSubtitlesInManifest: false,
-                MaxAudioChannels: "6",
-                MinSegments: 1,
-                SegmentLength: 0,
-                BreakOnNonKeyFrames: false
+            // }, {
+            //     Container: "ts",
+            //     Type: 'Video',
+            //     VideoCodec: "h264,hevc",
+            //     AudioCodec: "aac,mp3,ac3,eac3,opus",
+            //     Protocol: "hls",
+            //     EstimateContentLength: false,
+            //     EnableMpegtsM2TsMode: false,
+            //     TranscodeSeekInfo: 'Auto',
+            //     CopyTimestamps: false,
+            //     Context: 'Streaming',
+            //     EnableSubtitlesInManifest: false,
+            //     MaxAudioChannels: "6",
+            //     MinSegments: 1,
+            //     SegmentLength: 0,
+            //     BreakOnNonKeyFrames: false
             }, {
                 Container: "webm",
                 Type: 'Video',
@@ -394,22 +394,22 @@ function _AvplayVideoPlayer(modules) {
                 MinSegments: 0,
                 SegmentLength: 0,
                 BreakOnNonKeyFrames: false
-            }, {
-                Container: "mp4",
-                Type: 'Video',
-                VideoCodec: "h264",
-                AudioCodec: "flac,aac,mp3,ac3,eac3,mp2,pcm_s16le,pcm_s24le,aac_latm,opus,vorbis",
-                Protocol: "http",
-                EstimateContentLength: false,
-                EnableMpegtsM2TsMode: false,
-                TranscodeSeekInfo: 'Auto',
-                CopyTimestamps: false,
-                Context: 'Static',
-                EnableSubtitlesInManifest: false,
-                MaxAudioChannels: null,
-                MinSegments: 0,
-                SegmentLength: 0,
-                BreakOnNonKeyFrames: false
+            // }, {
+            //     Container: "mp4",
+            //     Type: 'Video',
+            //     VideoCodec: "h264",
+            //     AudioCodec: "flac,aac,mp3,ac3,eac3,mp2,pcm_s16le,pcm_s24le,aac_latm,opus,vorbis",
+            //     Protocol: "http",
+            //     EstimateContentLength: false,
+            //     EnableMpegtsM2TsMode: false,
+            //     TranscodeSeekInfo: 'Auto',
+            //     CopyTimestamps: false,
+            //     Context: 'Static',
+            //     EnableSubtitlesInManifest: false,
+            //     MaxAudioChannels: null,
+            //     MinSegments: 0,
+            //     SegmentLength: 0,
+            //     BreakOnNonKeyFrames: false
             }]
         };
 
