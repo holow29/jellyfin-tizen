@@ -358,10 +358,10 @@ function _AvplayVideoPlayer(modules) {
                 CopyTimestamps: false,
                 Context: 'Streaming',
                 EnableSubtitlesInManifest: false,
-                MaxAudioChannels: "6",
-                MinSegments: 1,
+                MaxAudioChannels: "8",
+                MinSegments: 2,
                 SegmentLength: 0,
-                BreakOnNonKeyFrames: false
+                BreakOnNonKeyFrames: true
             // }, {
             //     Container: "ts",
             //     Type: 'Video',
