@@ -347,10 +347,10 @@ function _AvplayVideoPlayer(modules) {
             //     SegmentLength: 0,
             //     BreakOnNonKeyFrames: false
             // }, {
-                Container: "mp4",
+                Container: "ts",
                 Type: 'Video',
                 VideoCodec: "h264,hevc",
-                AudioCodec: "flac,aac,mp3,ac3,eac3,mp2,pcm_s16le,pcm_s24le,aac_latm,opus,vorbis",
+                AudioCodec: "aac,mp3,ac3,eac3,mp2,pcm_s16le,pcm_s24le,aac_latm,opus,vorbis",
                 Protocol: "hls",
                 EstimateContentLength: false,
                 EnableMpegtsM2TsMode: false,
@@ -358,7 +358,7 @@ function _AvplayVideoPlayer(modules) {
                 CopyTimestamps: false,
                 Context: 'Streaming',
                 EnableSubtitlesInManifest: false,
-                MaxAudioChannels: "8",
+                MaxAudioChannels: "6",
                 MinSegments: 2,
                 SegmentLength: 0,
                 BreakOnNonKeyFrames: true
