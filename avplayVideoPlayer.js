@@ -358,7 +358,7 @@ function _AvplayVideoPlayer(modules) {
                 CopyTimestamps: false,
                 Context: 'Streaming',
                 EnableSubtitlesInManifest: false,
-                MaxAudioChannels: "8",
+                MaxAudioChannels: "6",
                 MinSegments: 1,
                 SegmentLength: 0,
                 BreakOnNonKeyFrames: false
